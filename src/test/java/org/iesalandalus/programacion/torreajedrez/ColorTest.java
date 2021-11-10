@@ -3,7 +3,7 @@ package org.iesalandalus.programacion.torreajedrez;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.iesalandalus.programacion.torreajedrez.Color;
+//import org.iesalandalus.programacion.torreajedrez.Color;
 import org.junit.Test;
 
 public class ColorTest {
