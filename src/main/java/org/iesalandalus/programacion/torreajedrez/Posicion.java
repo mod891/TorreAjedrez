@@ -43,10 +43,10 @@ public class Posicion {
 		return fila;
 	}
 	public void setFila(int fila) {
-		if (fila < 1 || fila > 8) {			
+		if (!(fila < 1 || fila > 8)) {		
 			this.fila = fila;
 		} else {
-			new IllegalArgumentException("EXCEPCION_FILA_INCORRECTA");
+			throw new IllegalArgumentException("EXCEPCION_FILA_INCORRECTA");
 		}
 	}
 	public char getColumna() {
@@ -57,7 +57,7 @@ public class Posicion {
 		if (!(asciiVal < 98 || asciiVal > 105)) {
 			this.columna = columna;
 		} else {
-			new IllegalArgumentException("EXCEPCION_COLUMNA_INCORRECTA");
+			throw new IllegalArgumentException("EXCEPCION_COLUMNA_INCORRECTA");
 		}
 	}
 	

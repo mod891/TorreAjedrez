@@ -5,7 +5,8 @@ public class MainApp {
 	public static void main(String[] args) {
 		
 		Posicion pos = new Posicion();
-		System.out.println("kk");
+		Torre torre = new Torre(); 
+		System.out.println(torre.toString());
 	}
 
 }
