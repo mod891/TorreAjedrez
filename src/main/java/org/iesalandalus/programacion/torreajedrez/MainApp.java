@@ -4,8 +4,10 @@ public class MainApp {
 
 	public static void main(String[] args) {
 		
-		Posicion pos = new Posicion();
+		Posicion posicion = new Posicion();
 		Torre torre = new Torre(); 
+		torre = new Torre(Color.BLANCO); 
+		torre = new Torre(Color.NEGRO); 
 		System.out.println(torre.toString());
 	}
 
