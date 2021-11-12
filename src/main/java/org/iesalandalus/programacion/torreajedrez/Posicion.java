@@ -54,10 +54,11 @@ public class Posicion {
 	}
 	public void setColumna(char columna) {
 		int asciiVal = (int) columna;
-		if (!(asciiVal < 98 || asciiVal > 105)) {
+		
+		if (!(asciiVal < 97 || asciiVal > 104)) {
 			this.columna = columna;
 		} else {
-			throw new IllegalArgumentException("EXCEPCION_COLUMNA_INCORRECTA");
+			throw new IllegalArgumentException("EXCEPCION_COLUMNA_INCORRECTA"+(int) columna);
 		}
 	}
 	
