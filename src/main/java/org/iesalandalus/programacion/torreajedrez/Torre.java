@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.torreajedrez;
 
+import java.util.Objects;
+
 import javax.naming.OperationNotSupportedException;
 
 public class Torre {
@@ -68,22 +70,16 @@ public class Torre {
 		this.posicion = posicion;
 	}
 	public void mover(Direccion direccion, int pasos) throws OperationNotSupportedException {
-		/*
-		  a b c  
-		 8
-		 7
-		 6
-		 */
+	
 			boolean puedeMover = true;
 			char nuevaColumna;
 			Posicion posActual = getPosicion();
 			
 			if (pasos > 0) {
 				if (direccion != null) {
-					// izq dcha -- col
-					// independientemente del color sea blanca o negra los limites del tablero son los limites
-					// no gira el tablero al cambiar de color
+					
 					switch (direccion) {
+					
 					case ARRIBA:// ^ fila++ max:8
 						if (posActual.getFila()+pasos <= 8 ) {
 							Posicion nuevaPosicion = new Posicion(posActual.getFila()+pasos,posActual.getColumna());
@@ -125,6 +121,59 @@ public class Torre {
 				throw new IllegalArgumentException("Los pasos "+pasos+" deben ser positivos");
 			}
 	}
+	// enrocas a la derecha la torre se mueve a la izquierda y viceversa
+	public void enrocar(Direccion direccion)  throws OperationNotSupportedException {
+		if (direccion == null) 
+			throw new NullPointerException("Torre.enrocar:direccion null");
+		
+		if (getColor() == Color.NEGRO) {
+			
+			if (direccion == Direccion.DERECHA) {
+				if (getPosicion().getFila() == 8 && getPosicion().getColumna() == 'h' )
+					mover(Direccion.IZQUIERDA,2);
+					
+			} else if (direccion == Direccion.IZQUIERDA) {
+				if (getPosicion().getFila() == 8 && getPosicion().getColumna() == 'a' )
+					mover(Direccion.DERECHA,3);			
+			} else {
+				throw new OperationNotSupportedException("Movimiento no valido: el enroque es izquierda o derecha");
+			}
+		
+		} else if (getColor() == Color.BLANCO)  {
+			
+			if (direccion == Direccion.DERECHA) {
+				if (getPosicion().getFila() == 1 && getPosicion().getColumna() == 'h' )
+					mover(Direccion.IZQUIERDA,2);
+					
+			} else if (direccion == Direccion.IZQUIERDA) {
+				if (getPosicion().getFila() == 1 && getPosicion().getColumna() == 'a' )
+					mover(Direccion.DERECHA,3);			
+				
+			} else {
+				throw new OperationNotSupportedException("Movimiento no valido: el enroque es izquierda o derecha");
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(color, posicion);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Torre other = (Torre) obj;
+		return color == other.color && Objects.equals(posicion, other.posicion);
+	}
+
+
 	@Override
 	public String toString() {
 		return "Color:"+getColor()+" "+getPosicion().toString(); 
