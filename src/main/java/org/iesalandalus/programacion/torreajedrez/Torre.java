@@ -75,39 +75,69 @@ public class Torre {
 			char nuevaColumna;
 			Posicion posActual = getPosicion();
 			
+			
+			// negra invierte el orden arriba es abajo y derecha izquierda
 			if (pasos > 0) {
 				if (direccion != null) {
-					
+					// SIGNO
 					switch (direccion) {
 					
 					case ARRIBA:// ^ fila++ max:8
-						if (posActual.getFila()+pasos <= 8 ) {
-							Posicion nuevaPosicion = new Posicion(posActual.getFila()+pasos,posActual.getColumna());
-							setPosicion(nuevaPosicion);
-						} else puedeMover = false;
+						if (getColor() == Color.BLANCO) {
+							if (posActual.getFila()+pasos <= 8 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila()+pasos,posActual.getColumna());
+								setPosicion(nuevaPosicion);
+							} else puedeMover = false;
+						} else if (getColor() == Color.NEGRO) {
+							if (posActual.getFila()-pasos >= 1 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila()-pasos,posActual.getColumna());
+								setPosicion(nuevaPosicion);
+							} else puedeMover = false;
+						}
 						break;
 					case ABAJO: // ↓ fila-- min:1
-						if (posActual.getFila()-pasos >= 1 ) {
-
-							Posicion nuevaPosicion = new Posicion(posActual.getFila()-pasos,posActual.getColumna());
-							setPosicion(nuevaPosicion);	
-						} else puedeMover = false;
-						
+						if (getColor() == Color.BLANCO) {
+							if (posActual.getFila()-pasos >= 1 ) {
+	
+								Posicion nuevaPosicion = new Posicion(posActual.getFila()-pasos,posActual.getColumna());
+								setPosicion(nuevaPosicion);	
+							} else puedeMover = false;
+						} else if (getColor() == Color.NEGRO) {
+							if (posActual.getFila()+pasos <= 8 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila()+pasos,posActual.getColumna());
+								setPosicion(nuevaPosicion);
+							}
+						}
 						break;
 					case IZQUIERDA:// min:a ← ←
-						if ((int) posActual.getColumna()-pasos >= 97 ) {			
-							nuevaColumna = (char) ((int) posActual.getColumna()-pasos);				
-							Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
-							setPosicion(nuevaPosicion);
+						if (getColor() == Color.BLANCO) {
+							if ((int) posActual.getColumna()-pasos >= 97 ) {			
+								nuevaColumna = (char) ((int) posActual.getColumna()-pasos);				
+								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
+								setPosicion(nuevaPosicion);
+							} else puedeMover = false;
+						} else if (getColor() == Color.NEGRO) {
+							if ((int) posActual.getColumna()+pasos <= 104 ) {			
+								nuevaColumna = (char) ((int) posActual.getColumna()+pasos);				
+								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
+								setPosicion(nuevaPosicion);
+							} else puedeMover = false;		
 						} else puedeMover = false;
 						break;
 					case DERECHA: // → → max:h
-						if ((int) posActual.getColumna()+pasos <= 104 ) {
-							nuevaColumna = (char) ((int) posActual.getColumna()+pasos);						
-							Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
-							setPosicion(nuevaPosicion);												
-						} else puedeMover = false;
-						
+						if (getColor() == Color.BLANCO) {
+							if ((int) posActual.getColumna()+pasos <= 104 ) {
+								nuevaColumna = (char) ((int) posActual.getColumna()+pasos);						
+								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
+								setPosicion(nuevaPosicion);												
+							} else puedeMover = false;
+						} else if (getColor() == Color.NEGRO) {
+							if ((int) posActual.getColumna()-pasos >= 97 ) {			
+								nuevaColumna = (char) ((int) posActual.getColumna()-pasos);				
+								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
+								setPosicion(nuevaPosicion);
+							} else puedeMover = false;
+						}
 						break;
 					case ENROQUE_LARGO: 
 						break;

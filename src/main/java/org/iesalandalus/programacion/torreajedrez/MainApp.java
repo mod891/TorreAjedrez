@@ -161,7 +161,7 @@ public class MainApp {
 	public static void main(String[] args) {
 		Torre torreBlanca = new Torre(Color.BLANCO); // 1h
 		Torre torreNegra = new Torre(Color.NEGRO); 
-		System.out.println(torreBlanca.toString()); 
+		//System.out.println(torreBlanca.toString()); 
 		System.out.println(torreNegra.toString()); // 8h
 		try {
 			/*
