@@ -13,7 +13,6 @@ public class Torre {
 		setColor(Color.NEGRO);
 	}
 	
-	
 	public Torre(Torre torre) {
 		if (torre == null) throw new NullPointerException();
 		setPosicion(torre.getPosicion());
@@ -22,23 +21,24 @@ public class Torre {
 	
 	
 	public Torre(Color color) {
+		if (color == null ) throw new NullPointerException("Debería haber saltado una excepción indicando que el color no puede ser nulo.");
 		setColor(color);
 		if (color == Color.BLANCO)
 			setPosicion(new Posicion(1,'h'));
-		else
+		else 
 			setPosicion(new Posicion(8,'h'));
 	}
 
-	
-	public Torre(Color color, char columna) throws IllegalArgumentException {
+		 
+	public Torre(Color color, char columna) {
 		
-		if (color == null) throw new NullPointerException();
-		else setColor(color);
+		
+		setColor(color);
 		
 		Posicion posicion = null;
 		
 		if (!((int) columna < 97 || (int) columna > 104)) {
-			if (color == color.BLANCO) {
+			if (color == Color.BLANCO) {
 				posicion = new Posicion(1,columna);	
 			} else {
 				posicion = new Posicion(8,columna);	
@@ -48,14 +48,16 @@ public class Torre {
 			setPosicion(posicion);
 			
 		} else { 
-			throw new IllegalArgumentException("columna '"+columna+"' fuera de rango");
-		}
-		
+			throw new IllegalArgumentException("ERROR: Columna no válida.");
+		}		
 	}
+	
 	public Color getColor() {
 		return color;
 	}
 	public void setColor(Color color) {
+		if (color == null)
+			throw new NullPointerException("ERROR: No se puede asignar un color nulo.");
 		this.color = color;
 	}
 	public Posicion getPosicion() {
@@ -65,9 +67,7 @@ public class Torre {
 		
 		if (posicion == null)
 		 	throw new NullPointerException("Posicion Nula");
-		
-		// posicion = new Posicion(posicion); cc 
-		this.posicion = posicion;
+			this.posicion = posicion;
 	}
 	public void mover(Direccion direccion, int pasos) throws OperationNotSupportedException {
 	
@@ -109,22 +109,27 @@ public class Torre {
 						} else puedeMover = false;
 						
 						break;
+					case ENROQUE_LARGO: 
+						break;
+
+					case ENROQUE_CORTO: 
+						break;
 					}
 					
 					if (!puedeMover) 
-						throw new OperationNotSupportedException("la torre se sale del tablero");
+						throw new OperationNotSupportedException("Debería haber saltado una excepción indicando que el movimiento no es válido.");
 			
 				} else {
-					throw new NullPointerException("direccion es null");
+					throw new NullPointerException("ERROR: La dirección no puede ser nula.");
 				}
 			} else {
-				throw new IllegalArgumentException("Los pasos "+pasos+" deben ser positivos");
+				throw new IllegalArgumentException("ERROR: El número de pasos debe ser positivo.");
 			}
 	}
 	// enrocas a la derecha la torre se mueve a la izquierda y viceversa
 	public void enrocar(Direccion direccion)  throws OperationNotSupportedException {
 		if (direccion == null) 
-			throw new NullPointerException("Torre.enrocar:direccion null");
+			throw new NullPointerException("ERROR: La dirección no puede ser nula.");
 		
 		if (getColor() == Color.NEGRO) {
 			
@@ -136,7 +141,7 @@ public class Torre {
 				if (getPosicion().getFila() == 8 && getPosicion().getColumna() == 'a' )
 					mover(Direccion.DERECHA,3);			
 			} else {
-				throw new OperationNotSupportedException("Movimiento no valido: el enroque es izquierda o derecha");
+				throw new OperationNotSupportedException("ERROR: Movimiento de enroque no válido.");
 			}
 		
 		} else if (getColor() == Color.BLANCO)  {
@@ -150,7 +155,7 @@ public class Torre {
 					mover(Direccion.DERECHA,3);			
 				
 			} else {
-				throw new OperationNotSupportedException("Movimiento no valido: el enroque es izquierda o derecha");
+				throw new OperationNotSupportedException("ERROR: Movimiento de enroque no válido.");
 			}
 		}
 	}
@@ -176,7 +181,7 @@ public class Torre {
 
 	@Override
 	public String toString() {
-		return "Color:"+getColor()+" "+getPosicion().toString(); 
+		return getPosicion().toString()+", color="+getColor(); 
 	}
 	
 	

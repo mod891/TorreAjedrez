@@ -74,7 +74,7 @@ public class TorreTest {
 	public void constructorColorNuloLanzaExcepcion() {
 		Torre torre = null;
 		try {
-			torre = new Torre(null);
+			torre = new Torre(null);// constructor ambiguo. null puede ser Torre(color) o Torre(torre)
 			fail(COLOR_NO_NULO);
 		} catch (NullPointerException e) {
 			assertThat(EXCEPCION_MENSAJE_ADECUADO, e.getMessage(), is(ERROR_COLOR_NULO));
@@ -145,10 +145,10 @@ public class TorreTest {
 	
 	@Test
 	public void moverDireccionValidaPasosValidosCambiaPosicionCorrectamente() {
-		Torre torreBlanca = new Torre(Color.BLANCO);
-		Torre torreNegra = new Torre(Color.NEGRO);
+		Torre torreBlanca = new Torre(Color.BLANCO); // 1h
+		Torre torreNegra = new Torre(Color.NEGRO); //	8h
 		try {
-			torreBlanca.mover(Direccion.ARRIBA, 2);
+			torreBlanca.mover(Direccion.ARRIBA, 2); 
 			assertThat(POSICION_NO_ESPERADA, torreBlanca.getPosicion(), is(new Posicion(3, 'h')));
 			torreBlanca.mover(Direccion.ARRIBA, 5);
 			assertThat(POSICION_NO_ESPERADA, torreBlanca.getPosicion(), is(new Posicion(8, 'h')));
@@ -158,6 +158,7 @@ public class TorreTest {
 			assertThat(POSICION_NO_ESPERADA, torreBlanca.getPosicion(), is(new Posicion(5, 'd')));
 			torreBlanca.mover(Direccion.DERECHA, 1);
 			assertThat(POSICION_NO_ESPERADA, torreBlanca.getPosicion(), is(new Posicion(5, 'e')));
+			
 			torreNegra.mover(Direccion.ARRIBA, 4);
 			assertThat(POSICION_NO_ESPERADA, torreNegra.getPosicion(), is(new Posicion(4, 'h')));
 			torreNegra.mover(Direccion.ABAJO, 1);
