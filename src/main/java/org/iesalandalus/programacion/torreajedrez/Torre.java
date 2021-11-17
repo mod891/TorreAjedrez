@@ -5,23 +5,28 @@ import java.util.Objects;
 import javax.naming.OperationNotSupportedException;
 
 public class Torre {
+
+	private static final int ASCII_A = 97;
+	private static final int ASCII_H = 104;
+	
 	private Color color;
 	private Posicion posicion;
 	
 	public Torre() {
+		
 		setPosicion(new Posicion(8,'h'));
 		setColor(Color.NEGRO);
 	}
 	
 	public Torre(Torre torre) {
-		if (torre == null) throw new NullPointerException();
+		
 		setPosicion(torre.getPosicion());
 		setColor(torre.getColor());
 	}
 	
 	
 	public Torre(Color color) {
-		if (color == null ) throw new NullPointerException("Debería haber saltado una excepción indicando que el color no puede ser nulo.");
+		
 		setColor(color);
 		if (color == Color.BLANCO)
 			setPosicion(new Posicion(1,'h'));
@@ -37,13 +42,12 @@ public class Torre {
 		
 		Posicion posicion = null;
 		
-		if (!((int) columna < 97 || (int) columna > 104)) {
+		if (!((int) columna < ASCII_A || (int) columna > ASCII_H)) {
 			if (color == Color.BLANCO) {
 				posicion = new Posicion(1,columna);	
 			} else {
 				posicion = new Posicion(8,columna);	
 			}
-			// creará una torre del color dado y colocado en dicha columna
 			
 			setPosicion(posicion);
 			
@@ -75,65 +79,77 @@ public class Torre {
 			char nuevaColumna;
 			Posicion posActual = getPosicion();
 			
-			
-			// negra invierte el orden arriba es abajo y derecha izquierda
 			if (pasos > 0) {
 				if (direccion != null) {
-					// SIGNO
+					
+					//    ↓   ^   →   ←
+					// B  -   +   -   +  
+					// N  +   -   +   -   
+					
 					switch (direccion) {
 					
-					case ARRIBA:// ^ fila++ max:8
+					case ARRIBA:
 						if (getColor() == Color.BLANCO) {
-							if (posActual.getFila()+pasos <= 8 ) {
-								Posicion nuevaPosicion = new Posicion(posActual.getFila()+pasos,posActual.getColumna());
+							
+							if (posActual.getFila() + pasos <= 8 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila() + pasos,posActual.getColumna());
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;
 						} else if (getColor() == Color.NEGRO) {
-							if (posActual.getFila()-pasos >= 1 ) {
-								Posicion nuevaPosicion = new Posicion(posActual.getFila()-pasos,posActual.getColumna());
+							
+							if (posActual.getFila() - pasos >= 1 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila() - pasos,posActual.getColumna());
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;
 						}
 						break;
-					case ABAJO: // ↓ fila-- min:1
+						
+					case ABAJO: 
 						if (getColor() == Color.BLANCO) {
-							if (posActual.getFila()-pasos >= 1 ) {
-	
-								Posicion nuevaPosicion = new Posicion(posActual.getFila()-pasos,posActual.getColumna());
+							
+							if (posActual.getFila() - pasos >= 1 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila() - pasos,posActual.getColumna());
 								setPosicion(nuevaPosicion);	
 							} else puedeMover = false;
 						} else if (getColor() == Color.NEGRO) {
-							if (posActual.getFila()+pasos <= 8 ) {
-								Posicion nuevaPosicion = new Posicion(posActual.getFila()+pasos,posActual.getColumna());
+							
+							if (posActual.getFila() + pasos <= 8 ) {
+								Posicion nuevaPosicion = new Posicion(posActual.getFila() + pasos,posActual.getColumna());
 								setPosicion(nuevaPosicion);
 							}
 						}
 						break;
-					case IZQUIERDA:// min:a ← ←
+						
+					case IZQUIERDA:
 						if (getColor() == Color.BLANCO) {
-							if ((int) posActual.getColumna()-pasos >= 97 ) {			
-								nuevaColumna = (char) ((int) posActual.getColumna()-pasos);				
+							
+							if ((int) posActual.getColumna() - pasos >= ASCII_A ) {			
+								nuevaColumna = (char) ((int) posActual.getColumna() - pasos);				
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;
 						} else if (getColor() == Color.NEGRO) {
-							if ((int) posActual.getColumna()+pasos <= 104 ) {			
-								nuevaColumna = (char) ((int) posActual.getColumna()+pasos);				
+							
+							if ((int) posActual.getColumna() + pasos <= ASCII_H ) {			
+								nuevaColumna = (char) ((int) posActual.getColumna() + pasos);				
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;		
 						} else puedeMover = false;
 						break;
-					case DERECHA: // → → max:h
+						
+					case DERECHA: 
 						if (getColor() == Color.BLANCO) {
-							if ((int) posActual.getColumna()+pasos <= 104 ) {
-								nuevaColumna = (char) ((int) posActual.getColumna()+pasos);						
+							
+							if ((int) posActual.getColumna() + pasos <= ASCII_H ) {
+								nuevaColumna = (char) ((int) posActual.getColumna() + pasos);						
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);												
 							} else puedeMover = false;
 						} else if (getColor() == Color.NEGRO) {
-							if ((int) posActual.getColumna()-pasos >= 97 ) {			
-								nuevaColumna = (char) ((int) posActual.getColumna()-pasos);				
+							
+							if ((int) posActual.getColumna() - pasos >= ASCII_A ) {			
+								nuevaColumna = (char) ((int) posActual.getColumna() - pasos);				
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;
@@ -147,7 +163,7 @@ public class Torre {
 					}
 					
 					if (!puedeMover) 
-						throw new OperationNotSupportedException("Debería haber saltado una excepción indicando que el movimiento no es válido.");
+						throw new OperationNotSupportedException("ERROR: Movimiento no válido (se sale del tablero).");					
 			
 				} else {
 					throw new NullPointerException("ERROR: La dirección no puede ser nula.");

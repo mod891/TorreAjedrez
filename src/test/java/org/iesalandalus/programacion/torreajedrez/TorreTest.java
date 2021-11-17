@@ -213,7 +213,7 @@ public class TorreTest {
 	
 	@Test
 	public void moverMovimientoNoValidoLanzaExcepcionYNoMueveTorre() {
-		Torre torre = new Torre();
+		Torre torre = new Torre();//8h
 		try {
 			torre.mover(Direccion.IZQUIERDA, 3);
 			fail(EXCEPCION_MOVIMIENTO_NO_VALIDO);
