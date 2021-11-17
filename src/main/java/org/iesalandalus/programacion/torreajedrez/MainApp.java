@@ -160,10 +160,10 @@ public class MainApp {
 			opcion = Entrada.entero();
 		} while (!(opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4) );
 		
-		if (opcion == 1) direccion = Direccion.ARRIBA;
-		else if (opcion == 2) direccion =  Direccion.ABAJO;
-		else if (opcion == 3) direccion =  Direccion.IZQUIERDA;
-		else if (opcion == 4) direccion =  Direccion.DERECHA;
+		if (opcion == 0) direccion = Direccion.ARRIBA;
+		else if (opcion == 1) direccion =  Direccion.ABAJO;
+		else if (opcion == 2) direccion =  Direccion.IZQUIERDA;
+		else if (opcion == 3) direccion =  Direccion.DERECHA;
 		return direccion;
 	}
 	
