@@ -19,7 +19,10 @@ public class MainApp {
 					  + "----------------\n"
 				+ "  1: crear torre por defecto\n"
 				+ "  2: crear torre de color\n"
-				+ "  3: Mover\n"
+				+ "  3: crear torre de color en columna inicial\n"	
+				+ "  4: Mover\n"
+				+ "  5: Enroque corto\n"
+				+ "  6: Enroque largo\n"
 				+ "  0: salir\n";
 				
 		do {
@@ -41,7 +44,18 @@ public class MainApp {
 				ejecutarOpcion(3);
 				
 			break;
-			
+			case 4:
+				ejecutarOpcion(4);
+				
+			break;
+			case 5:
+				ejecutarOpcion(5);
+				
+			break;
+			case 6:
+				ejecutarOpcion(6);
+				
+			break;
 			}			
 		} while (opcion  != 0);
 
@@ -52,7 +66,7 @@ public class MainApp {
 		do {
 			System.out.println("Elegir opcion:");
 			opcion = Entrada.entero();
-		} while (!(opcion  == 1 || opcion  == 2 ||opcion  == 3 || opcion  == 0) );
+		} while (!(opcion  == 1 || opcion  == 2 ||opcion  == 3 || opcion  == 4 || opcion  == 5 ||  opcion  == 6 || opcion  == 0 ) );
 		return opcion;
 	}
 	
@@ -60,22 +74,59 @@ public class MainApp {
 
 		char columnaInicial;
 		Color colorInicial; 
+		switch (opcion) {
 		
-		if (opcion == 1) {
+		case 1:
 			crearTorreDefecto();
 			mostrarTorre();
-			
-		} else if (opcion == 2) {
-			
+		break;
+		case 2:
+			colorInicial = elegirColor();
+			crearTorreColor(colorInicial);
+			mostrarTorre();
+		break;
+		case 3:
 			colorInicial = elegirColor();
 			columnaInicial = elegirColumnaInicial();
 			crearTorreColorColumna(colorInicial, columnaInicial);
 			mostrarTorre();
-			
-		} else if (opcion == 3) {
+		break;
+		case 4:
 			mover();
 			mostrarTorre();
-		} else if (opcion == 4) return;
+			break;
+		case 5:
+			if (torre == null) torre = new Torre();
+			try {
+				if (torre.getColor() == Color.NEGRO) {
+				
+					torre.enrocar(Direccion.DERECHA);
+				} 
+				else {
+					torre.enrocar(Direccion.IZQUIERDA);
+				} 
+			}	catch (OperationNotSupportedException e) {
+				System.out.println(e.getMessage());
+			}
+			break;
+		case 6:
+			try {
+				if (torre.getColor() == Color.NEGRO) {
+				
+					torre.enrocar(Direccion.IZQUIERDA);
+					mostrarTorre();
+				} 
+				else {
+					torre.enrocar(Direccion.DERECHA);
+					mostrarTorre();
+				} 
+			}	catch (OperationNotSupportedException e) {
+				System.out.println(e.getMessage());
+			}
+			break;
+		case 0: return;
+		}
+		
 	}
 	
 	private static void crearTorreDefecto() {
@@ -83,6 +134,7 @@ public class MainApp {
 	}
 	private static void crearTorreColor(Color color) {
 		torre = new Torre(color);
+		
 	}
 	private static Color elegirColor() {
 		int opcion;
@@ -115,28 +167,21 @@ public class MainApp {
 	
 	private static void mover() {
 		if (torre == null) torre = new Torre();
-		int direccion, pasos;
+		Direccion direccion;
+		int pasos;
 			
-		do {
-			System.out.println("¿Qué dirección?");
-			mostrarMenuDirecciones();
-			direccion = Entrada.entero();			
-		} while (!(direccion == 0 || direccion == 1 || direccion == 2 || direccion == 3));
+	
+		System.out.println("¿Qué dirección?");
+		mostrarMenuDirecciones();
+		direccion = elegirDireccion();			
+		
 		do {
 			System.out.println("¿Cuantos pasos?");
 			pasos = Entrada.entero();
 		} while (pasos <= 0);
 
 		try {
-			if (direccion == 0) {
-				torre.mover(Direccion.ARRIBA,pasos);
-			} else if (direccion == 1) {
-				torre.mover(Direccion.DERECHA,pasos);
-			} else if (direccion == 2) {
-				torre.mover(Direccion.ABAJO,pasos);
-			} else if (direccion == 3) {
-				torre.mover(Direccion.IZQUIERDA,pasos);
-			}		
+			torre.mover(direccion,pasos);
 			
 		} catch (OperationNotSupportedException e) {
 			System.out.println(e.getMessage());	
@@ -148,7 +193,9 @@ public class MainApp {
 				  "  0: ARRIBA\n"
 				+ "  1: DERECHA\n"
 				+ "  2: ABAJO\n"
-				+ "  3: IZQUIERDA\n";
+				+ "  3: IZQUIERDA\n"
+				+ "  4: ENROQUE CORTO\n"
+				+ "  5: ENROQUE LARGO\n";
 		System.out.println(menu);
 	}
 	
@@ -156,14 +203,16 @@ public class MainApp {
 		int opcion;
 		Direccion direccion = null;
 		do {
-			System.out.println("Elegir dirección [1, 2, 3, 4]");
+			System.out.println("Elegir dirección [0, 1, 2, 3, 4, 5]");
 			opcion = Entrada.entero();
-		} while (!(opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4) );
+		} while (!(opcion == 0 || opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5) );
 		
 		if (opcion == 0) direccion = Direccion.ARRIBA;
-		else if (opcion == 1) direccion =  Direccion.ABAJO;
-		else if (opcion == 2) direccion =  Direccion.IZQUIERDA;
-		else if (opcion == 3) direccion =  Direccion.DERECHA;
+		else if (opcion == 1) direccion =  Direccion.DERECHA;
+		else if (opcion == 2) direccion =  Direccion.ABAJO;
+		else if (opcion == 3) direccion =  Direccion.IZQUIERDA;
+		else if (opcion == 4) direccion =  Direccion.ENROQUE_CORTO;
+		else if (opcion == 5) direccion =  Direccion.ENROQUE_LARGO;
 		return direccion;
 	}
 	

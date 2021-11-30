@@ -4,10 +4,11 @@ import java.util.Objects;
 
 import javax.naming.OperationNotSupportedException;
 
+import org.apache.commons.math3.exception.NullArgumentException;
+
 public class Torre {
 
-	private static final int ASCII_A = 97;
-	private static final int ASCII_H = 104;
+
 	
 	private Color color;
 	private Posicion posicion;
@@ -17,12 +18,14 @@ public class Torre {
 		setPosicion(new Posicion(8,'h'));
 		setColor(Color.NEGRO);
 	}
-	
+/*	
 	public Torre(Torre torre) {
+		if (torre == null) 
+			throw new NullPointerException("Error: torre es nulo");
 		
 		setPosicion(torre.getPosicion());
 		setColor(torre.getColor());
-	}
+	}*/
 	
 	
 	public Torre(Color color) {
@@ -42,7 +45,7 @@ public class Torre {
 		
 		Posicion posicion = null;
 		
-		if (!((int) columna < ASCII_A || (int) columna > ASCII_H)) {
+		if (!((int) columna < 97 || (int) columna > 104)) {
 			if (color == Color.BLANCO) {
 				posicion = new Posicion(1,columna);	
 			} else {
@@ -65,13 +68,13 @@ public class Torre {
 		this.color = color;
 	}
 	public Posicion getPosicion() {
-		return posicion;
+		return  new Posicion(posicion);
 	}
 	public void setPosicion(Posicion posicion) {
 		
 		if (posicion == null)
 		 	throw new NullPointerException("Posicion Nula");
-			this.posicion = posicion;
+			this.posicion = new Posicion(posicion);
 	}
 	public void mover(Direccion direccion, int pasos) throws OperationNotSupportedException {
 	
@@ -123,32 +126,32 @@ public class Torre {
 					case IZQUIERDA:
 						if (getColor() == Color.BLANCO) {
 							
-							if ((int) posActual.getColumna() - pasos >= ASCII_A ) {			
+							if ((int) posActual.getColumna() - pasos >= 97 ) {			
 								nuevaColumna = (char) ((int) posActual.getColumna() - pasos);				
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;
 						} else if (getColor() == Color.NEGRO) {
 							
-							if ((int) posActual.getColumna() + pasos <= ASCII_H ) {			
+							if ((int) posActual.getColumna() + pasos <= 104 ) {			
 								nuevaColumna = (char) ((int) posActual.getColumna() + pasos);				
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);
 							} else puedeMover = false;		
-						} else puedeMover = false;
+						} 
 						break;
 						
 					case DERECHA: 
 						if (getColor() == Color.BLANCO) {
 							
-							if ((int) posActual.getColumna() + pasos <= ASCII_H ) {
+							if ((int) posActual.getColumna() + pasos <= 104 ) {
 								nuevaColumna = (char) ((int) posActual.getColumna() + pasos);						
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);												
 							} else puedeMover = false;
 						} else if (getColor() == Color.NEGRO) {
 							
-							if ((int) posActual.getColumna() - pasos >= ASCII_A ) {			
+							if ((int) posActual.getColumna() - pasos >= 97 ) {			
 								nuevaColumna = (char) ((int) posActual.getColumna() - pasos);				
 								Posicion nuevaPosicion = new Posicion(posActual.getFila(),nuevaColumna);
 								setPosicion(nuevaPosicion);
@@ -156,9 +159,19 @@ public class Torre {
 						}
 						break;
 					case ENROQUE_LARGO: 
+						if (getColor() == Color.NEGRO) {
+							enrocar(Direccion.IZQUIERDA);
+						} else {
+							enrocar(Direccion.DERECHA);
+						}
 						break;
 
 					case ENROQUE_CORTO: 
+						if (getColor() == Color.NEGRO) {
+							enrocar(Direccion.DERECHA);
+						} else {
+							enrocar(Direccion.IZQUIERDA);
+						}
 						break;
 					}
 					
