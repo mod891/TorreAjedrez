@@ -174,19 +174,21 @@ public class MainApp {
 		System.out.println("¿Qué dirección?");
 		mostrarMenuDirecciones();
 		direccion = elegirDireccion();			
-		
-		do {
-			System.out.println("¿Cuantos pasos?");
-			pasos = Entrada.entero();
-		} while (pasos <= 0);
-
-		try {
-			torre.mover(direccion,pasos);
+		if (direccion != Direccion.ENROQUE_CORTO && direccion != Direccion.ENROQUE_LARGO) {
+			do {
+				System.out.println("¿Cuantos pasos?");
+				pasos = Entrada.entero();
+			} while (pasos <= 0);
 			
-		} catch (OperationNotSupportedException e) {
-			System.out.println(e.getMessage());	
-		}		
+			try {
+				torre.mover(direccion,pasos);
+				
+			} catch (OperationNotSupportedException e) {
+				System.out.println(e.getMessage());	
+			}		
+		}
 	}
+			
 	
 	private static void mostrarMenuDirecciones() {
 		String menu = 
