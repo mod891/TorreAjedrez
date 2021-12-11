@@ -1,9 +1,6 @@
 package org.iesalandalus.programacion.torreajedrez;
 
 import org.iesalandalus.programacion.utilidades.Entrada;
-
-
-
 import javax.naming.OperationNotSupportedException;
 
 public class MainApp {
@@ -219,7 +216,7 @@ public class MainApp {
 	}
 	
 	public static void main(String[] args) {
-
+		
 		mostrarMenu();
 
 		
